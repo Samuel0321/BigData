@@ -1,2 +1,0 @@
-Data/*.json filter=lfs diff=lfs merge=lfs -text
-Data/*.rmhdf5table filter=lfs diff=lfs merge=lfs -text
