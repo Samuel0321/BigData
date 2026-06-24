@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="12.1.001">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="12.1.001" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="retrieve" compatibility="12.1.001" expanded="true" height="68" name="Retrieve cleaned_employees_dataset" width="90" x="45" y="136">
+        <parameter key="repository_entry" value="//Data Assignment/Data/cleaned_employees_dataset"/>
+      </operator>
+      <operator activated="true" class="blending:generate_columns" compatibility="12.1.001" expanded="true" height="82" name="Generate Attributes" width="90" x="179" y="136">
+        <list key="function_descriptions">
+          <parameter key="stress_workload_index" value="stress_level * workload_score"/>
+          <parameter key="burnout_pressure" value="overtime_hours * stress_level"/>
+          <parameter key="burnout_index" value="(burnout_risk + stress_level + workload_score) / 3"/>
+          <parameter key="high_burnout_flag" value="if(burnout_index &gt;= 0.7, 1, 0)"/>
+        </list>
+        <parameter key="keep_all_columns" value="true"/>
+        <parameter key="default_time_zone" value="Asia/Kuala_Lumpur"/>
+      </operator>
+      <operator activated="true" class="blending:set_role" compatibility="12.1.001" expanded="true" height="82" name="Set Role" width="90" x="313" y="136">
+        <list key="set_roles">
+          <parameter key="left_company" value="label"/>
+        </list>
+      </operator>
+      <connect from_op="Retrieve cleaned_employees_dataset" from_port="output" to_op="Generate Attributes" to_port="table input"/>
+      <connect from_op="Generate Attributes" from_port="table output" to_op="Set Role" to_port="example set input"/>
+      <connect from_op="Set Role" from_port="example set output" to_port="result 2"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+      <portSpacing port="sink_result 3" spacing="0"/>
+    </process>
+  </operator>
+</process>
