@@ -32,14 +32,14 @@
         <parameter key="keep_all_columns" value="true"/>
         <parameter key="default_time_zone" value="Asia/Kuala_Lumpur"/>
       </operator>
-      <operator activated="true" class="blending:select_attributes" compatibility="12.1.001" expanded="true" height="82" name="Select Attributes" width="90" x="380" y="289">
+      <operator activated="true" class="blending:select_attributes" compatibility="12.1.001" expanded="true" height="82" name="Select Attributes" width="90" x="447" y="85">
         <parameter key="type" value="include attributes"/>
         <parameter key="attribute_filter_type" value="a subset"/>
         <parameter key="select_attribute" value=""/>
         <parameter key="select_subset" value="burnout_risk␞department␞job_level␞persona_name␞salary␞salary_band␞salary_per_tenure␞stress_level␞tenure_months␞workload_score"/>
         <parameter key="also_apply_to_special_attributes_(id,_label..)" value="false"/>
       </operator>
-      <operator activated="true" class="aggregate" compatibility="12.1.001" expanded="true" height="82" name="Aggregate" width="90" x="581" y="136">
+      <operator activated="true" class="aggregate" compatibility="12.1.001" expanded="true" height="82" name="Aggregate" width="90" x="581" y="85">
         <parameter key="use_default_aggregation" value="true"/>
         <parameter key="attribute_filter_type" value="all"/>
         <parameter key="attribute" value=""/>
