@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="12.1.001">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="12.1.001" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="productivity:execute_process" compatibility="12.1.001" expanded="true" height="82" name="Execute Text_feature_engineering" width="90" x="45" y="238">
+        <parameter key="process_location" value="//Data Assignment/process/Text_feature_engineering"/>
+        <parameter key="use_input" value="true"/>
+        <parameter key="store_output" value="false"/>
+        <parameter key="propagate_metadata_recursively" value="true"/>
+        <parameter key="cache_process" value="true"/>
+        <list key="macros"/>
+        <parameter key="fail_for_unknown_macros" value="true"/>
+      </operator>
+      <operator activated="true" class="productivity:execute_process" compatibility="12.1.001" expanded="true" height="68" name="Execute Stress_burnout_pressure_feature engineering" width="90" x="45" y="136">
+        <parameter key="process_location" value="//Data Assignment/process/Stress_burnout_pressure_feature engineering"/>
+        <parameter key="use_input" value="true"/>
+        <parameter key="store_output" value="false"/>
+        <parameter key="propagate_metadata_recursively" value="true"/>
+        <parameter key="cache_process" value="true"/>
+        <list key="macros"/>
+        <parameter key="fail_for_unknown_macros" value="true"/>
+      </operator>
+      <operator activated="true" class="productivity:execute_process" compatibility="12.1.001" expanded="true" height="68" name="Execute Salary_feature_engineer" width="90" x="45" y="34">
+        <parameter key="process_location" value="//Data Assignment/process/Salary_feature_engineer"/>
+        <parameter key="use_input" value="true"/>
+        <parameter key="store_output" value="false"/>
+        <parameter key="propagate_metadata_recursively" value="true"/>
+        <parameter key="cache_process" value="true"/>
+        <list key="macros"/>
+        <parameter key="fail_for_unknown_macros" value="true"/>
+      </operator>
+      <operator activated="true" class="concurrency:join" compatibility="12.1.001" expanded="true" height="82" name="Join" width="90" x="246" y="187">
+        <parameter key="remove_double_attributes" value="true"/>
+        <parameter key="join_type" value="inner"/>
+        <parameter key="use_id_attribute_as_key" value="false"/>
+        <list key="key_attributes">
+          <parameter key="employee_id" value="employee_id"/>
+        </list>
+        <parameter key="keep_both_join_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="concurrency:join" compatibility="12.1.001" expanded="true" height="82" name="Join (2)" width="90" x="313" y="85">
+        <parameter key="remove_double_attributes" value="true"/>
+        <parameter key="join_type" value="inner"/>
+        <parameter key="use_id_attribute_as_key" value="false"/>
+        <list key="key_attributes">
+          <parameter key="department" value="department"/>
+        </list>
+        <parameter key="keep_both_join_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="h2o:gradient_boosted_trees" compatibility="11.0.003" expanded="true" height="103" name="Gradient Boosted Trees" width="90" x="447" y="85">
+        <parameter key="number_of_trees" value="50"/>
+        <parameter key="reproducible" value="false"/>
+        <parameter key="maximum_number_of_threads" value="4"/>
+        <parameter key="use_local_random_seed" value="false"/>
+        <parameter key="local_random_seed" value="1992"/>
+        <parameter key="maximal_depth" value="5"/>
+        <parameter key="min_rows" value="10.0"/>
+        <parameter key="min_split_improvement" value="1.0E-5"/>
+        <parameter key="number_of_bins" value="20"/>
+        <parameter key="learning_rate" value="0.01"/>
+        <parameter key="sample_rate" value="1.0"/>
+        <parameter key="distribution" value="AUTO"/>
+        <parameter key="early_stopping" value="false"/>
+        <parameter key="stopping_rounds" value="1"/>
+        <parameter key="stopping_metric" value="AUTO"/>
+        <parameter key="stopping_tolerance" value="0.001"/>
+        <list key="monotone_constraints"/>
+        <parameter key="max_runtime_seconds" value="0"/>
+        <list key="expert_parameters"/>
+      </operator>
+      <connect from_port="input 1" to_op="Execute Salary_feature_engineer" to_port="input 1"/>
+      <connect from_port="input 2" to_op="Execute Stress_burnout_pressure_feature engineering" to_port="input 1"/>
+      <connect from_port="input 3" to_op="Execute Text_feature_engineering" to_port="input 1"/>
+      <connect from_op="Execute Text_feature_engineering" from_port="result 2" to_op="Join" to_port="left"/>
+      <connect from_op="Execute Stress_burnout_pressure_feature engineering" from_port="result 1" to_op="Join" to_port="right"/>
+      <connect from_op="Execute Salary_feature_engineer" from_port="result 1" to_op="Join (2)" to_port="left"/>
+      <connect from_op="Join" from_port="join" to_op="Join (2)" to_port="right"/>
+      <connect from_op="Join (2)" from_port="join" to_op="Gradient Boosted Trees" to_port="training set"/>
+      <connect from_op="Gradient Boosted Trees" from_port="model" to_port="result 1"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="source_input 2" spacing="0"/>
+      <portSpacing port="source_input 3" spacing="0"/>
+      <portSpacing port="source_input 4" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+    </process>
+  </operator>
+</process>
