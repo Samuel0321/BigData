@@ -147,6 +147,7 @@
       <connect from_op="Join (2)" from_port="join" to_op="Cross Validation" to_port="example set"/>
       <connect from_op="Cross Validation" from_port="model" to_port="result 1"/>
       <connect from_op="Cross Validation" from_port="test result set" to_port="result 2"/>
+      <connect from_op="Cross Validation" from_port="performance 1" to_port="result 3"/>
       <portSpacing port="source_input 1" spacing="0"/>
       <portSpacing port="source_input 2" spacing="0"/>
       <portSpacing port="source_input 3" spacing="0"/>
@@ -154,6 +155,7 @@
       <portSpacing port="sink_result 1" spacing="0"/>
       <portSpacing port="sink_result 2" spacing="0"/>
       <portSpacing port="sink_result 3" spacing="0"/>
+      <portSpacing port="sink_result 4" spacing="0"/>
     </process>
   </operator>
 </process>

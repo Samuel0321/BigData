@@ -15,6 +15,11 @@
       <operator activated="true" class="retrieve" compatibility="12.1.001" expanded="true" height="68" name="Retrieve cleaned_employees_dataset" width="90" x="45" y="85">
         <parameter key="repository_entry" value="//Data Assignment/Data/cleaned_employees_dataset"/>
       </operator>
+      <operator activated="true" class="filter_example_range" compatibility="12.1.001" expanded="true" height="82" name="Filter Example Range" width="90" x="179" y="238">
+        <parameter key="first_example" value="1"/>
+        <parameter key="last_example" value="100000"/>
+        <parameter key="invert_filter" value="false"/>
+      </operator>
       <operator activated="true" class="blending:set_role" compatibility="12.1.001" expanded="true" height="82" name="Set Role" width="90" x="179" y="136">
         <list key="set_roles">
           <parameter key="left_company" value="label"/>
@@ -81,7 +86,8 @@
         <parameter key="local_random_seed" value="1992"/>
         <parameter key="enable_parallel_execution" value="true"/>
       </operator>
-      <connect from_op="Retrieve cleaned_employees_dataset" from_port="output" to_op="Set Role" to_port="example set input"/>
+      <connect from_op="Retrieve cleaned_employees_dataset" from_port="output" to_op="Filter Example Range" to_port="example set input"/>
+      <connect from_op="Filter Example Range" from_port="example set output" to_op="Set Role" to_port="example set input"/>
       <connect from_op="Set Role" from_port="example set output" to_op="Process Documents from Data" to_port="example set"/>
       <connect from_op="Process Documents from Data" from_port="example set" to_op="Generate TFIDF" to_port="example set input"/>
       <connect from_op="Generate TFIDF" from_port="example set output" to_op="Random Forest" to_port="training set"/>

@@ -15,6 +15,11 @@
       <operator activated="true" class="retrieve" compatibility="12.1.001" expanded="true" height="68" name="Retrieve cleaned_employees_dataset" width="90" x="45" y="85">
         <parameter key="repository_entry" value="//Data Assignment/Data/cleaned_employees_dataset"/>
       </operator>
+      <operator activated="true" class="filter_example_range" compatibility="12.1.001" expanded="true" height="82" name="Filter Example Range" width="90" x="179" y="187">
+        <parameter key="first_example" value="1"/>
+        <parameter key="last_example" value="100000"/>
+        <parameter key="invert_filter" value="false"/>
+      </operator>
       <operator activated="true" class="blending:split_data" compatibility="12.1.001" expanded="true" height="82" name="Split Data" width="90" x="179" y="85">
         <enumeration key="partitions">
           <parameter key="ratio" value="0.3"/>
@@ -62,7 +67,8 @@
         <parameter key="only_distinct" value="false"/>
         <parameter key="ignore_missings" value="true"/>
       </operator>
-      <connect from_op="Retrieve cleaned_employees_dataset" from_port="output" to_op="Split Data" to_port="example set"/>
+      <connect from_op="Retrieve cleaned_employees_dataset" from_port="output" to_op="Filter Example Range" to_port="example set input"/>
+      <connect from_op="Filter Example Range" from_port="example set output" to_op="Split Data" to_port="example set"/>
       <connect from_op="Split Data" from_port="partition 1" to_op="Generate Attributes" to_port="table input"/>
       <connect from_op="Generate Attributes" from_port="table output" to_op="Select Attributes" to_port="example set input"/>
       <connect from_op="Select Attributes" from_port="example set output" to_op="Aggregate" to_port="example set input"/>
